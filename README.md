@@ -15,13 +15,13 @@ Edit index.ts to update business logic/params
 
 Finally, run
 ```
-  tsc
+  tsc --skipLibCheck
 ```
 
 
 ## Deploy
 ```
-  cd src && npm install && tsc;cd .. && tfx extension create --rev-version --manifest-globs vss-extension.json
+  cd src && npm install && tsc --skipLibCheck;cd .. && tfx extension create --rev-version --manifest-globs vss-extension.json
 ```
 
 Then upload extension (vsix) to https://marketplace.visualstudio.com/manage/publishers/ostorlab?noPrompt=true

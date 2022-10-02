@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
-    "id": "23dc49cd-5bad-4188-b2cc-0ff2a118ee39",
+    "id": "4ed3de7c-9d7d-4913-875c-029bf7685b5f",
     "name": "ostorlab-azure-security-scanner",
     "friendlyName": "Ostorlab Security & Privacy testing Security Extension",
     "description": "Mobile Security & Privacy testing Security Extension",
@@ -67,10 +67,10 @@
           "name": "scanProfile",
           "type": "pickList",
           "label": "Scan profile",
-          "defaultValue": "fast_scan",
+          "defaultValue": "Fast Scan",
           "options": {
-            "fast_scan": "Fast scan",
-            "full_scan": "Full scan"
+            "Fast Scan": "Fast Scan",
+            "Full Scan": "Full Scan"
           },
           "required": false,
           "helpMarkDown": "Select the scan profile to run.",

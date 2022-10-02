@@ -2,53 +2,53 @@ import * as tl from "azure-pipelines-task-lib/task";
 import fs = require("fs");
 import path = require("path");
 
-let onError = function (errMsg: string, code: number) {
+const onError = function (errMsg: string, code: number) {
   tl.error(errMsg);
   tl.setResult(tl.TaskResult.Failed, errMsg);
 }
 
-let apiKey = tl.getInput("apiKey", true);
+const apiKey = tl.getInput("apiKey", true);
 tl.debug("apiKey: " + apiKey);
 
-let filePath = tl.getInput("filepath", true);
+const filePath = tl.getInput("filepath", true);
 tl.debug("filePath: " + filePath);
 
-let artifactsDir = tl.getInput("artifactsDir", true);
+const artifactsDir = tl.getInput("artifactsDir", true);
 tl.debug("artifactsDir: " + artifactsDir);
 
-let platform = tl.getInput("platform", true);
+const platform = tl.getInput("platform", true);
 tl.debug("platform: " + platform);
 
-let scanProfile = tl.getInput("scanProfile", true);
+const scanProfile = tl.getInput("scanProfile", true);
 tl.debug("scanProfile: " + scanProfile);
 
-let title = tl.getInput("title", false);
+const title = tl.getInput("title", false);
 tl.debug("title: " + title);
 
-let waitForResults = tl.getInput("waitForResults", false);
+const waitForResults = tl.getInput("waitForResults", false);
 tl.debug("waitForResults: " + waitForResults);
 
-let riskThreshold = tl.getInput("riskThreshold", false);
+const riskThreshold = tl.getInput("riskThreshold", false);
 tl.debug("riskThreshold: " + riskThreshold);
 
-let waitMinutes = tl.getInput("waitMinutes", false);
+const waitMinutes = tl.getInput("waitMinutes", false);
 tl.debug("waitMinutes: " + waitMinutes);
 
-let breakBuildOnScore = tl.getInput("breakBuildOnScore", false);
+const breakBuildOnScore = tl.getInput("breakBuildOnScore", false);
 tl.debug("breakBuildOnScore: " + breakBuildOnScore);
 
-let task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
-let version = `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`
+const task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
+const version = `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`
 
-let javaPath = tl.which("java");
+const javaPath = tl.which("java");
 if (!javaPath) {
   onError("java is not found in the path", 1);
 }
-let java = tl.tool("java");
-let nsAPI = path.join(__dirname, "ostorlab_ci.jar");
+const java = tl.tool("java");
+const binOstorlab = path.join(__dirname, "ostorlab_ci.jar");
 
 java.arg("-jar");
-java.arg(nsAPI);
+java.arg(binOstorlab);
 
 java.arg("--api-key");
 java.arg(apiKey);

@@ -2,8 +2,8 @@
     "manifestVersion": 1,
     "id": "ostorlab-azure-security-scanner",
     "name": "ostorlab-azure-security-scanner",
-    "description": "Ostorlab scans mobile applications (Android APK, AAB, iOS IPA) for security and privacy issues. It provides full coverage by detecting issues on both the client-side and service-side, covering both the application code and all of its dependencies.\n\nOstorlab supports all major frameworks, both native and multi-platform. This includes Java, Kotlin, Objective C, Swift, Flutter, Cordova, React Native, Ionic and Xamarin.\n\nOstorlab provides both static and dynamic analysis capabilities, detecting over 500 vulnerability classes, like hardcoded secrets, privacy data leakage, untrusted input inject, outdated dependencies with a database of over 120k known vulnerable dependency.",
-    "version": "1.0.0",
+    "description": "Ostorlab scans mobile applications (Android APK, AAB, iOS IPA) for security and privacy issues. It provides full coverage by detecting issues on both the client-side and service-side.",
+    "version": "1.0.7",
     "publisher": "Ostorlab",
     "targets": [
         {
@@ -106,15 +106,6 @@
         },
         {
             "path": "images/install.png"
-        },
-        {
-            "path": "images/debug.png"
-        },
-        {
-            "path": "images/artifacts.png"
-        },
-        {
-            "path": "images/log.png"
         }
     ]
 }

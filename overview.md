@@ -48,7 +48,7 @@ Then install it as follows:
 #### Sample Build Pipeline for Android
 ```
 pool:
-  vmImage: 'macOS 10.13'
+  vmImage: 'macos-latest'
 
 steps:
 - task: Gradle@2
@@ -68,36 +68,11 @@ steps:
     pathToPublish: '$(build.artifactStagingDirectory)'
     artifactName: 'drop'
     artifactType: 'container'
-- task: ostorlab-azure@1
+- task: ostorlab-azure-security-scanner@1
   inputs:
-    artifactsDir: '$(build.artifactStagingDirectory)/OstorlabArtifacts'
-    filepath: '/Users/vsts/agent/2.155.1/work/1/a/app/build/outputs/apk/app-prod-debug.apk'
-    group: 'xxxxx'
-    waitMinutes: 60
-    showStatusMessages: true
-    scoreThreshold: 75
-    token: 'xxxxx'
+    apiKey: 'I7mdo4lz.XXXXXXXXXX'
+    filepath: '/dev/myApp.apk'
+    platform: 'android'
+    artifactsDir: '$(build.artifactStagingDirectory)/ostorlabArtifacts'
 ```
-Note: "task: ostorlab-azure@1" is the main task for security analysis and other tasks above are used to generate Android apk file.
-
-#### Publish/View Artifacts
-You can add task to publish artifacts (API results) from Ostorlab security task as follows
-```
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(build.artifactStagingDirectory)'
-    artifactName: 'OstorlabArtifacts'
-    artifactType: 'container'
-```
-
-You can view artifacts from the build output such as:
-![](images/artifacts.png)
-
-
-#### View Output logs
-![](images/log.png)
-
-
-#### Debugging
-- Add variable for system.debug=true in your build to see more detailed logs, e.g.,
-![](images/debug.png)
+Note: "task: ostorlab-azure-security-scanner@1" is the main task for security analysis. The other tasks above are used to generate the Android apk file.
