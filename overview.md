@@ -2,7 +2,13 @@
 This extension/plugin adds the ability to perform automatic mobile app security testing for Android and iOS mobile apps through the Ostorlab SaaS platform.
 
 ### Summary:
-Purpose-built for mobile app teams, Ostorlab mobile security testing platform provides fully automated, mobile appsec testing coverage (static+dynamic+behavioral tests) optimized for the dev pipeline. Because Ostorlab tests the mobile app binary post-build from Azure Devops, it can test software developed in any language and provides complete results including newly developed code, 3rd party code, and compiler/operating system dependencies. Ostorlab identifies security issues, provides detailed recommendations, and routes tickets automatically into ticketing systems, such as Jira. Ostorlab is frequently used to perform security testing in parallel with functional testing in the dev cycle. Requires a subscriptions. https://www.ostorlab.co.
+Ostorlab scans mobile applications (Android APK, AAB, iOS IPA) for security and privacy issues. It provides full coverage by detecting issues on both the client-side and service-side, covering both the application code and all of its dependencies.
+
+Ostorlab supports all major frameworks, both native and multi-platform. This includes Java, Kotlin, Objective C, Swift, Flutter, Cordova, React Native, Ionic and Xamarin.
+
+Ostorlab provides both static and dynamic analysis capabilities, detecting over 500 vulnerability classes, like hardcoded secrets, privacy data leakage, untrusted input inject, outdated dependencies with a database of over 120k known vulnerable dependency.
+
+Requires a subscriptions. https://www.ostorlab.co.
 
 ## Job Parameters
 Following are parameters needed for the job:
@@ -22,12 +28,13 @@ Following are parameters needed for the job:
 - `OSTORLAB_BREAK_BUILD_ON_SCORE` - Set to `true` to generate an exception if the scan risk rating is higher than the threshold
 - `OSTORLAB_RISK_THRESHOLD` - Specifies your risk rating threshold. Possible values: `LOW`
 
-### Access token
+### API key
 
 1. Go to the [API keys menu](https://report.ostorlab.co/library/api/keys)
 2. Click the new button to generate a new key
 3. Copy the API key (You can add a name and an expiry date to your key)
 4. Click the save button to save your key
+![](images/apikey.png)
 
 ### Installation
 

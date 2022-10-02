@@ -1,7 +1,7 @@
-# Azure DevOps Extension for Ostorlab Auto Security Test
+# Ostorlab Azure DevOps extension for mobile security testing 
 
 ## Marketplace URL for Installation and Download to TFS/Azure DevOps Server:
-- [https://marketplace.visualstudio.com/items?itemName=Ostorlab-com.azure-ostorlab-auto-security-test]
+- [https://marketplace.visualstudio.com/items?itemName=Ostorlab.ostorlab-azure-security-scanner]
 
 ## Development
 - install node
