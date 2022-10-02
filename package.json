@@ -1,0 +1,33 @@
+{
+  "name": "ostorlab-plugin",
+  "version": "1.0.0",
+  "description": "Ostorlab azure extension for mobile security testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tfxpublish": "tfx extension publish --manifest-globs vss-extension.json -t ${TFX_TOKEN}",
+    "postinstall": "cd src && npm ci",
+    "tsbuild": "cd src && npm run compile",
+    "tfxcreate": "tfx extension create --manifests vss-extension.json",
+    "compile": "npm run tsbuild && npm run tfxcreate",
+    "release": "npm run testtfxtoken && release-it --ci && npm run tfxpublish",
+    "testtfxtoken": "check-env TFX_TOKEN"
+  },
+  "keywords": [
+    "Ostorlab",
+    "Azure",
+    "extension"
+  ],
+  "private": true,
+  "author": "Ostorlab",
+  "license": "MIT",
+  "dependencies": {
+    "azure-pipelines-task-lib": "3.1.10",
+    "vss-web-extension-sdk": "5.141.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.14.45",
+    "@types/q": "1.5.4",
+    "@release-it/bumper": "^4.0.0"
+  }
+}

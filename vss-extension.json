@@ -1,0 +1,111 @@
+{
+    "manifestVersion": 1,
+    "id": "ostorlab-azure-security-scanner",
+    "name": "ostorlab-azure-security-scanner",
+    "description": "Ostorlab scans mobile applications (Android APK, AAB, iOS IPA) for security and privacy issues. It provides full coverage by detecting issues on both the client-side and service-side.",
+    "version": "1.0.10",
+    "publisher": "Ostorlab",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "tags": [
+        "mobile",
+        "dast",
+        "mast",
+        "security",
+        "plugin",
+        "ostorlab",
+        "vulnerability",
+        "scan",
+        "mobile security",
+        "automated scanner",
+        "Azure Pipelines",
+        "Azure DevOps Extensions",
+        "Marketplace"
+    ],
+    "public": true,
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/icon.png"
+    },
+    "files": [
+        {
+            "path": "src"
+        },
+        {
+            "path": "images",
+            "addressable": true
+        },
+        {
+            "path": "overview.md",
+            "addressable": true
+        },
+        {
+            "path": "LICENSE.md",
+            "addressable": true
+        }
+    ],
+    "contributions": [
+        {
+            "id": "ostorlab-azure-security-scanner",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "src"
+            }
+        }
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        },
+        "license": {
+            "path": "LICENSE.md"
+        }
+    },
+    "links": {
+        "home": {
+            "uri": "https://www.ostorlab.co/"
+        },
+        "getstarted": {
+            "uri": "https://github.com/Ostorlab/ostorlab_azure_devops_extension/blob/master/overview.md"
+        },
+        "support": {
+            "uri": "mailto:support@ostorlab.dev"
+        },
+        "repository": {
+            "uri": "https://github.com/Ostorlab/ostorlab_azure_devops_extension"
+        },
+        "issues": {
+            "uri": "https://github.com/Ostorlab/ostorlab_azure_devops_extension/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/Ostorlab/ostorlab_azure_devops_extension"
+    },
+    "branding": {
+        "color": "rgb(00, 153, 255)",
+        "theme": "dark"
+    },
+    "screenshots": [
+        {
+            "path": "images/basic-config.png"
+        },
+        {
+            "path": "images/advanced-config.png"
+        },
+        {
+            "path": "images/marketplace.png"
+        },
+        {
+            "path": "images/install.png"
+        }
+    ]
+}
