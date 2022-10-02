@@ -45,7 +45,7 @@
             "addressable": true
         },
         {
-            "path": "license-terms.md",
+            "path": "LICENSE.md",
             "addressable": true
         }
     ],
@@ -66,7 +66,7 @@
             "path": "overview.md"
         },
         "license": {
-            "path": "license-terms.md"
+            "path": "LICENSE.md"
         }
     },
     "links": {
