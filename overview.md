@@ -86,7 +86,7 @@ steps:
 The task will start as follow:  
 ![](images/start_task.png)
 
-Then, a series of logs of the steps: Uploading the application binary, creating a scan and waiting for the results.  
+Then, the console will print the logs of the different steps: Uploading the application binary, creating a scan and waiting for the results.  
 
 ![](images/azure_logs.png)
 
