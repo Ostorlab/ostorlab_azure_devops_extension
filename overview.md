@@ -82,4 +82,15 @@ steps:
     platform: 'android'
     artifactsDir: '$(build.artifactStagingDirectory)/ostorlabArtifacts'
 ```
-Note: "task: ostorlab-azure-security-scanner@1" is the main task for security analysis. The other tasks above are used to generate the Android apk file.
+
+The task will start as follow:  
+![](images/start_task.png)
+
+Then, a series of logs of the steps: Uploading the application binary, creating a scan and waiting for the results.  
+
+![](images/azure_logs.png)
+
+
+Notes:
+1. "task: ostorlab-azure-security-scanner@1" is the main task for security analysis. The other tasks above are used to generate the Android apk file.
+2. If you set the _Wait for the scan to finish and retrieve the results_ option, & the scan took more than the provided _Max wait time_, the pipline will fail.
