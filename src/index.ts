@@ -25,7 +25,7 @@ tl.debug("scanProfile: " + scanProfile);
 const title = tl.getInput("title", false);
 tl.debug("title: " + title);
 
-const waitForResults = tl.getInput("waitForResults", false);
+const waitForResults = tl.getBoolInput("waitForResults", false);
 tl.debug("waitForResults: " + waitForResults);
 
 const riskThreshold = tl.getInput("riskThreshold", false);
@@ -34,7 +34,7 @@ tl.debug("riskThreshold: " + riskThreshold);
 const waitMinutes = tl.getInput("waitMinutes", false);
 tl.debug("waitMinutes: " + waitMinutes);
 
-const breakBuildOnScore = tl.getInput("breakBuildOnScore", false);
+const breakBuildOnScore = tl.getBoolInput("breakBuildOnScore", false);
 tl.debug("breakBuildOnScore: " + breakBuildOnScore);
 
 const task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
