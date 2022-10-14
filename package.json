@@ -1,6 +1,6 @@
 {
   "name": "ostorlab-plugin",
-  "version": "1.0.0",
+  "version": "1.0.15",
   "description": "Ostorlab azure extension for mobile security testing",
   "main": "index.js",
   "scripts": {

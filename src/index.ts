@@ -76,7 +76,6 @@ if (waitForResults) {
   java.arg(waitMinutes);
 }
 
-
 if (breakBuildOnScore) {
   java.arg("--breakBuildOnScore");
   java.arg("--riskThreshold");
