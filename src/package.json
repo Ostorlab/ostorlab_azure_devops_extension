@@ -1,6 +1,6 @@
 {
   "name": "ostorlab-plugin",
-  "version": "1.0.0",
+  "version": "1.0.17",
   "description": "Ostorlab azure extension for mobile security testing",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "Ostorlab",
   "license": "MIT",
   "dependencies": {
-    "azure-pipelines-task-lib": "3.1.10",
+    "azure-pipelines-task-lib": "^3.3.1",
     "vss-web-extension-sdk": "5.141.0"
   },
   "devDependencies": {
