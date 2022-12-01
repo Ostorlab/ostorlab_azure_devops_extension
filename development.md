@@ -2,7 +2,7 @@
 
 Marketplace URL for Installation and Download to TFS/Azure DevOps Server:
 
-- [https://marketplace.visualstudio.com/items?itemName=Ostorlab.ostorlab-azure-security-scanner](Link)
+- [https://marketplace.visualstudio.com/items?itemName=Ostorlab.ostorlab-azure-security-scanner](https://marketplace.visualstudio.com/items?itemName=Ostorlab.ostorlab-azure-security-scanner)
 
 ## Installation
 
@@ -21,13 +21,9 @@ Edit `index.ts` to update business logic or params, and then run `tsc --skipLibC
 
 ## Deploy
 
-To deploy code, run the following commands:
+To deploy code, run the following commands, update the version in `src/task.json`:
 
 ```
-cd src
-npm install
-tsc --skipLibCheck
-cd ..
 tfx extension create --rev-version --manifest-globs vss-extension.json
 ```
 
