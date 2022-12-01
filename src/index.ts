@@ -88,7 +88,18 @@ if (process.env.SYSTEM_DEBUG) {
 }
 
 java.on("stdout", function (data: Buffer) {
-  console.log(data.toString());
+  const dataValue = data.toString()
+
+  console.log(`STDOUT: ${dataValue}`)
+
+  if (dataValue.includes('createMobileScan') === true) {
+    const scanId = JSON.parse(dataValue).data?.createMobileScan?.scan?.id
+    console.log(`Scan ${scanId} is created successfully.`)
+    if (scanId !== undefined && scanId !== null) {
+      console.log(`##vso[task.setvariable variable=OstorlabScanId]${scanId}`)
+    }
+  }
+
 });
 
 console.log(java);
