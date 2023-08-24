@@ -1,6 +1,7 @@
 import * as tl from "azure-pipelines-task-lib/task";
 import fs = require("fs");
 import path = require("path");
+import YAML from 'yaml';
 
 const onError = function (errMsg: string, code: number) {
   tl.error(errMsg);
@@ -36,6 +37,16 @@ tl.debug("waitMinutes: " + waitMinutes);
 
 const breakBuildOnScore = tl.getBoolInput("breakBuildOnScore", false);
 tl.debug("breakBuildOnScore: " + breakBuildOnScore);
+
+let extra: string = tl.getInput("extra", false);
+
+let sbomFiles: string[] = null;
+let credentials: {key : string, value : string} = null;
+
+if (extra != null && extra != undefined){
+  sbomFiles = extra["sbom"];
+  credentials = extra["credentials"]
+}
 
 const task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
 const version = `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`

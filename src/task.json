@@ -125,6 +125,14 @@
           "required": false,
           "helpMarkDown": "Risk level for which build should fail",
            "groupName": "advanced"
+        },
+        {
+            "name": "extra",
+            "type": "multiLine",
+            "label": "Extra",
+            "required": false,
+            "helpMarkDown": "Extra arguments such as Sbom files and credentials, consult extension page for more details.",
+            "groupName": "advanced"
         }
     ],
     "execution": {
