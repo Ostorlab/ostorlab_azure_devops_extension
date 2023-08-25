@@ -65,6 +65,19 @@ Then install it as follows:
 
 ![](images/advanced-config.png)
 
+#### Extra parameter
+
+The extra parameter allows you to supply your SBOM/Lock files for an enhanced scan analysis and/or to supply either simple credentials (login-password) or custom credentials (name-value) to enable authenticated testing.
+The extra parameter can be either in `Yaml` or `Json` syntax.
+
+Yaml example:
+
+![](images/extra_yaml_example.png)
+
+Json example:
+
+![](images/extra_json_example.png)
+
 #### Sample Build Pipeline for Android
 
 ```

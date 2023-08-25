@@ -38,14 +38,17 @@ tl.debug("waitMinutes: " + waitMinutes);
 const breakBuildOnScore = tl.getBoolInput("breakBuildOnScore", false);
 tl.debug("breakBuildOnScore: " + breakBuildOnScore);
 
-let extra: string = tl.getInput("extra", false);
+const extra: string = tl.getInput("extra", false);
 
 let sbomFiles: string[] = null;
-let credentials: {key : string, value : string} = null;
+let credentials: {login : string, pass : string, role : string, url : string}[] = null;
+let customCredentials: {name : string, value : string}[] = null;
 
 if (extra != null && extra != undefined){
-  sbomFiles = extra["sbom"];
-  credentials = extra["credentials"]
+const extra_dict = YAML.parse(extra);
+  sbomFiles = extra_dict["sbom"];
+  credentials = extra_dict["credentials"];
+  customCredentials = extra_dict["custom_credentials"];
 }
 
 const task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
@@ -97,6 +100,47 @@ if (breakBuildOnScore) {
 if (process.env.SYSTEM_DEBUG) {
   java.arg("--debug");
 }
+
+if (sbomFiles) {
+  for (let i = 0; i < sbomFiles.length; i++){
+    java.arg("--sbom");
+    java.arg(sbomFiles[i]);
+  }
+}
+
+if (credentials) {
+  for (let i = 0; i < credentials.length; i++){
+    if ("login" in credentials[i] && "pass" in credentials[i]){
+
+      java.arg("--test-credentials-login");
+      java.arg(credentials[i].login);
+      java.arg("--test-credentials-pass");
+      java.arg(credentials[i].pass);
+
+      if ("role" in credentials[i]){
+        java.arg("--test-credentials-role");
+        java.arg(credentials[i].role);
+      }
+
+      if ("url" in credentials[i]){
+        java.arg("--test-credentials-url");
+        java.arg(credentials[i].url);
+      }
+    }
+  }
+}
+
+if (customCredentials) {
+  for (let i = 0; i < customCredentials.length; i++){
+    if ("name" in customCredentials[i] && "value" in customCredentials[i]){
+      java.arg("--test-credentials-name");
+      java.arg(customCredentials[i].name);
+      java.arg("--test-credentials-value");
+      java.arg(customCredentials[i].value);
+    }
+  }
+}
+
 
 java.on("stdout", function (data: Buffer) {
   const dataValue = data.toString()
