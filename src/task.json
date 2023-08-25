@@ -14,7 +14,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 20
+        "Patch": 21
     },
     "demands": [
         "java"
@@ -128,7 +128,7 @@
         }
     ],
     "execution": {
-        "Node": {
+        "Node10": {
             "target": "index.js"
         }
     }

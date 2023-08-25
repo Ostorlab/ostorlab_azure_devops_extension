@@ -1,120 +1,104 @@
-import * as tl from "azure-pipelines-task-lib/task";
-import fs = require("fs");
-import path = require("path");
-
-const onError = function (errMsg: string, code: number) {
-  tl.error(errMsg);
-  tl.setResult(tl.TaskResult.Failed, errMsg);
-}
-
-const apiKey = tl.getInput("apiKey", true);
-tl.debug("apiKey: " + apiKey);
-
-const filePath = tl.getInput("filepath", true);
-tl.debug("filePath: " + filePath);
-
-const artifactsDir = tl.getInput("artifactsDir", true);
-tl.debug("artifactsDir: " + artifactsDir);
-
-const platform = tl.getInput("platform", true);
-tl.debug("platform: " + platform);
-
-const scanProfile = tl.getInput("scanProfile", true);
-tl.debug("scanProfile: " + scanProfile);
-
-const title = tl.getInput("title", false);
-tl.debug("title: " + title);
-
-const waitForResults = tl.getBoolInput("waitForResults", false);
-tl.debug("waitForResults: " + waitForResults);
-
-const riskThreshold = tl.getInput("riskThreshold", false);
-tl.debug("riskThreshold: " + riskThreshold);
-
-const waitMinutes = tl.getInput("waitMinutes", false);
-tl.debug("waitMinutes: " + waitMinutes);
-
-const breakBuildOnScore = tl.getBoolInput("breakBuildOnScore", false);
-tl.debug("breakBuildOnScore: " + breakBuildOnScore);
-
-const task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
-const version = `${task.version.Major}.${task.version.Minor}.${task.version.Patch}`
-
-const javaPath = tl.which("java");
-if (!javaPath) {
-  onError("java is not found in the path", 1);
-}
-const java = tl.tool("java");
-const binOstorlab = path.join(__dirname, "ostorlab_ci.jar");
-
-java.arg("-jar");
-java.arg(binOstorlab);
-
-java.arg("--api-key");
-java.arg(apiKey);
-
-java.arg("--file-path");
-java.arg(filePath);
-
-java.arg("--artifacts-dir");
-java.arg(artifactsDir);
-
-java.arg("--scan-profile");
-java.arg(scanProfile);
-
-java.arg("--platform");
-java.arg(platform);
-
-if (title) {
-  java.arg("--title");
-  java.arg(title);
-}
-
-if (waitForResults) {
-  java.arg("--waitForResults");
-  java.arg("--auto-wait");
-  java.arg(waitMinutes);
-}
+import { ToolRunner } from 'azure-pipelines-task-lib/toolrunner';
+import { join } from 'path';
+import { getPythonPath } from './getpythonpath';
+import { TaskResult, debug, error, getBoolInput, getInput, loc, setResult, tool, which} from 'azure-pipelines-task-lib';
 
 
-if (breakBuildOnScore) {
-  java.arg("--breakBuildOnScore");
-  java.arg("--riskThreshold");
-  java.arg(riskThreshold);
-}
+const apiKey = getInput("apiKey", true);
+debug("apiKey: " + apiKey);
 
-if (process.env.SYSTEM_DEBUG) {
-  java.arg("--debug");
-}
+const filePath = getInput("filepath", true);
+debug("filePath: " + filePath);
 
-java.on("stdout", function (data: Buffer) {
-  const dataValue = data.toString()
+const artifactsDir = getInput("artifactsDir", true);
+debug("artifactsDir: " + artifactsDir);
 
-  console.log(`STDOUT: ${dataValue}`)
+const platform = getInput("platform", true);
+debug("platform: " + platform);
 
-  if (dataValue.includes('createMobileScan') === true) {
-    const scanId = JSON.parse(dataValue).data?.createMobileScan?.scan?.id
-    console.log(`Scan ${scanId} is created successfully.`)
-    if (scanId !== undefined && scanId !== null) {
-      console.log(`##vso[task.setvariable variable=OstorlabScanId]${scanId}`)
+const scanProfile = getInput("scanProfile", true);
+debug("scanProfile: " + scanProfile);
+
+const title = getInput("title", false);
+debug("title: " + title);
+
+const waitForResults = getBoolInput("waitForResults", false);
+debug("waitForResults: " + waitForResults);
+
+const riskThreshold = getInput("riskThreshold", false);
+debug("riskThreshold: " + riskThreshold);
+
+const waitMinutes = getInput("waitMinutes", false);
+debug("waitMinutes: " + waitMinutes);
+
+const breakBuildOnScore = getBoolInput("breakBuildOnScore", false);
+debug("breakBuildOnScore: " + breakBuildOnScore);
+
+
+async function run_scan(): Promise<void> {
+    try {
+
+        // Get Python 3 path
+        const pyPath: string = await getPythonPath();
+        console.log('PYTHON PATH: ' + `${pyPath}`);
+
+        try {
+            const packageSetup: ToolRunner = tool(pyPath);
+            packageSetup.arg('-m');
+            packageSetup.arg('pip');
+            packageSetup.arg('install');
+            packageSetup.arg('-r');
+            packageSetup.arg(join(__dirname, 'requirements.txt'));
+            await packageSetup.exec();
+            setResult(TaskResult.Succeeded, 'python setup was successful.');
+
+        } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+
+            return setResult(TaskResult.Failed, 'python setup failed.');
+        }
+
+        const ostorlabPath: string = which('ostorlab', true);
+
+        if (ostorlabPath != null)
+        {
+            const ostorlabExutable = tool(ostorlabPath)
+
+            ostorlabExutable.arg("--api-key")
+            ostorlabExutable.arg(apiKey!)
+            ostorlabExutable.arg("ci-scan")
+            ostorlabExutable.arg("run")
+            ostorlabExutable.arg("--title")
+            ostorlabExutable.arg(title!)
+            if (breakBuildOnScore === true) {
+                ostorlabExutable.arg("--break-on-risk-rating")
+                ostorlabExutable.arg(riskThreshold)
+            }
+            ostorlabExutable.arg("--max-wait-minutes")
+            ostorlabExutable.arg(waitMinutes)
+            ostorlabExutable.arg("--scan-profile")
+            if (scanProfile!= null && scanProfile == "Full Scan") {
+                ostorlabExutable.arg("full_scan")
+            } else {
+                ostorlabExutable.arg("full_scan")
+            }
+
+            if (platform!= null && platform.toLowerCase() == "android") {
+                ostorlabExutable.arg("android-apk")
+            } else {
+                ostorlabExutable.arg("ios-ipa")
+            }
+
+            ostorlabExutable.arg(filePath)
+
+            const result: string = await ostorlabExutable.execSync().stdout;
+            console.log('Scan ID: ' + `${result}`);
+        }
+
+    } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+        error(err.message);
+        setResult(TaskResult.Failed, loc('taskFailed', err.message));
+
     }
-  }
+}
 
-});
-
-console.log(java);
-
-//////////////////////////////////////////////////////////////////////////
-// Starting Java app to process the app for preflight and assessment
-// based on above config.
-//////////////////////////////////////////////////////////////////////////
-java.exec()
-  .then(function (code: number) {
-    tl.debug("code: " + code);
-    if (code != 0) {
-      onError("Error occurred:", code);
-    }
-  })
-  .fail(function (err: Error) {
-    onError("Error occurred: [" + err.toString() + "]", 1);
-  });
+run_scan();
