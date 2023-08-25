@@ -10,9 +10,6 @@ debug("apiKey: " + apiKey);
 const filePath = getInput("filepath", true);
 debug("filePath: " + filePath);
 
-const artifactsDir = getInput("artifactsDir", true);
-debug("artifactsDir: " + artifactsDir);
-
 const platform = getInput("platform", true);
 debug("platform: " + platform);
 
@@ -30,9 +27,6 @@ debug("riskThreshold: " + riskThreshold);
 
 const waitMinutes = getInput("waitMinutes", false);
 debug("waitMinutes: " + waitMinutes);
-
-const breakBuildOnScore = getBoolInput("breakBuildOnScore", false);
-debug("breakBuildOnScore: " + breakBuildOnScore);
 
 
 async function run_scan(): Promise<void> {
@@ -69,10 +63,8 @@ async function run_scan(): Promise<void> {
             ostorlabExutable.arg("run")
             ostorlabExutable.arg("--title")
             ostorlabExutable.arg(title!)
-            if (breakBuildOnScore === true) {
-                ostorlabExutable.arg("--break-on-risk-rating")
-                ostorlabExutable.arg(riskThreshold)
-            }
+            ostorlabExutable.arg("--break-on-risk-rating")
+            ostorlabExutable.arg(riskThreshold)
             ostorlabExutable.arg("--max-wait-minutes")
             ostorlabExutable.arg(waitMinutes)
             ostorlabExutable.arg("--scan-profile")

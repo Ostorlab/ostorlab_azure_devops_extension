@@ -43,8 +43,6 @@ var apiKey = (0, azure_pipelines_task_lib_1.getInput)("apiKey", true);
 (0, azure_pipelines_task_lib_1.debug)("apiKey: " + apiKey);
 var filePath = (0, azure_pipelines_task_lib_1.getInput)("filepath", true);
 (0, azure_pipelines_task_lib_1.debug)("filePath: " + filePath);
-var artifactsDir = (0, azure_pipelines_task_lib_1.getInput)("artifactsDir", true);
-(0, azure_pipelines_task_lib_1.debug)("artifactsDir: " + artifactsDir);
 var platform = (0, azure_pipelines_task_lib_1.getInput)("platform", true);
 (0, azure_pipelines_task_lib_1.debug)("platform: " + platform);
 var scanProfile = (0, azure_pipelines_task_lib_1.getInput)("scanProfile", true);
@@ -57,8 +55,6 @@ var riskThreshold = (0, azure_pipelines_task_lib_1.getInput)("riskThreshold", fa
 (0, azure_pipelines_task_lib_1.debug)("riskThreshold: " + riskThreshold);
 var waitMinutes = (0, azure_pipelines_task_lib_1.getInput)("waitMinutes", false);
 (0, azure_pipelines_task_lib_1.debug)("waitMinutes: " + waitMinutes);
-var breakBuildOnScore = (0, azure_pipelines_task_lib_1.getBoolInput)("breakBuildOnScore", false);
-(0, azure_pipelines_task_lib_1.debug)("breakBuildOnScore: " + breakBuildOnScore);
 function run_scan() {
     return __awaiter(this, void 0, void 0, function () {
         var pyPath, packageSetup, err_1, ostorlabPath, ostorlabExutable, result, err_2;
@@ -97,10 +93,8 @@ function run_scan() {
                     ostorlabExutable.arg("run");
                     ostorlabExutable.arg("--title");
                     ostorlabExutable.arg(title);
-                    if (breakBuildOnScore === true) {
-                        ostorlabExutable.arg("--break-on-risk-rating");
-                        ostorlabExutable.arg(riskThreshold);
-                    }
+                    ostorlabExutable.arg("--break-on-risk-rating");
+                    ostorlabExutable.arg(riskThreshold);
                     ostorlabExutable.arg("--max-wait-minutes");
                     ostorlabExutable.arg(waitMinutes);
                     ostorlabExutable.arg("--scan-profile");
