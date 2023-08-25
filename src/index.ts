@@ -46,9 +46,9 @@ let customCredentials: {name : string, value : string}[] = null;
 
 if (extra != null && extra != undefined){
 const extra_dict = YAML.parse(extra);
-  sbomFiles = extra_dict["sbom"];
-  credentials = extra_dict["credentials"];
-  customCredentials = extra_dict["custom_credentials"];
+  sbomFiles = extra_dict["sbom"]?.split("\n");
+  credentials = extra_dict["credentials"]?.split("\n");
+  customCredentials = extra_dict["custom_credentials"]?.split("\n");
 }
 
 const task = JSON.parse(fs.readFileSync(path.join(__dirname, "task.json")).toString());
