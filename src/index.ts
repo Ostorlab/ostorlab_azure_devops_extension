@@ -4,6 +4,8 @@ import { getPythonPath } from './getpythonpath';
 import { TaskResult, debug, error, getBoolInput, getInput, loc, setResult, tool, which} from 'azure-pipelines-task-lib';
 
 
+const YAML = require('yamljs');
+
 const apiKey = getInput("apiKey", true);
 debug("apiKey: " + apiKey);
 
@@ -19,8 +21,6 @@ debug("scanProfile: " + scanProfile);
 const title = getInput("title", false);
 debug("title: " + title);
 
-const waitForResults = getBoolInput("waitForResults", false);
-debug("waitForResults: " + waitForResults);
 
 const riskThreshold = getInput("riskThreshold", false);
 debug("riskThreshold: " + riskThreshold);
@@ -28,13 +28,26 @@ debug("riskThreshold: " + riskThreshold);
 const waitMinutes = getInput("waitMinutes", false);
 debug("waitMinutes: " + waitMinutes);
 
+const extra: string = getInput("extra", false);
 
-async function run_scan(): Promise<void> {
+let sbomFiles: string[] = null;
+let credentials: {login : string, pass : string, role : string, url : string}[] = null;
+let customCredentials: {name : string, value : string}[] = null;
+
+if (extra != null || extra != undefined){
+const extra_dict = YAML.parse(extra);
+  sbomFiles = extra_dict["sbom"]?.toString().split(",");
+  credentials = extra_dict["credentials"];
+  customCredentials = extra_dict["custom_credentials"];
+}
+
+
+async function runScan(): Promise<void> {
     try {
 
         // Get Python 3 path
         const pyPath: string = await getPythonPath();
-        console.log('PYTHON PATH: ' + `${pyPath}`);
+        debug('PYTHON PATH: ' + `${pyPath}`);
 
         try {
             const packageSetup: ToolRunner = tool(pyPath);
@@ -71,26 +84,67 @@ async function run_scan(): Promise<void> {
             if (scanProfile!= null && scanProfile == "Full Scan") {
                 ostorlabExutable.arg("full_scan")
             } else {
-                ostorlabExutable.arg("full_scan")
+                ostorlabExutable.arg("fast_scan")
+            }
+
+            if (sbomFiles) {
+              for (let i = 0; i < sbomFiles.length; i++){
+                ostorlabExutable.arg("--sbom");
+                ostorlabExutable.arg(sbomFiles[i]);
+              }
+            }
+
+            if (credentials) {
+              for (let i = 0; i < credentials.length; i++){
+                if ("login" in credentials[i] && "pass" in credentials[i]){
+
+                  ostorlabExutable.arg("--test-credentials-login");
+                  ostorlabExutable.arg(credentials[i].login);
+                  ostorlabExutable.arg("--test-credentials-password");
+                  ostorlabExutable.arg(credentials[i].pass);
+
+                  if ("role" in credentials[i]){
+                    ostorlabExutable.arg("--test-credentials-role");
+                    ostorlabExutable.arg(credentials[i].role);
+                  }
+
+                  if ("url" in credentials[i]){
+                    ostorlabExutable.arg("--test-credentials-url");
+                    ostorlabExutable.arg(credentials[i].url);
+                  }
+                }
+              }
+            }
+
+            if (customCredentials) {
+              for (let i = 0; i < customCredentials.length; i++){
+                if ("name" in customCredentials[i] && "value" in customCredentials[i]){
+                  ostorlabExutable.arg("--test-credentials-name");
+                  ostorlabExutable.arg(customCredentials[i].name);
+                  ostorlabExutable.arg("--test-credentials-value");
+                  ostorlabExutable.arg(customCredentials[i].value);
+                }
+              }
             }
 
             if (platform!= null && platform.toLowerCase() == "android") {
-                ostorlabExutable.arg("android-apk")
-            } else {
+              ostorlabExutable.arg("android-apk")
+            } else if (platform!= null && platform.toLowerCase() == "ios") {
                 ostorlabExutable.arg("ios-ipa")
+            } else {
+              error("Platform not implemented.")
             }
 
             ostorlabExutable.arg(filePath)
 
-            const result: string = await ostorlabExutable.execSync().stdout;
-            console.log('Scan ID: ' + `${result}`);
-        }
+            ostorlabExutable.exec().toString;
+          }
 
     } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-        error(err.message);
+        error(`An error was encountered, please check documentation at (https://docs.ostorlab.co) or contact support at support@ostorlab.dev: ${err.message}`);
         setResult(TaskResult.Failed, loc('taskFailed', err.message));
 
     }
 }
 
-run_scan();
+runScan();

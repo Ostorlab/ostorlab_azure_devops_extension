@@ -10,8 +10,12 @@
   "author": "Ostorlab",
   "license": "MIT",
   "dependencies": {
-    "azure-pipelines-task-lib": "^3.3.1",
-    "vss-web-extension-sdk": "5.141.0"
+    "azure-pipelines-task-lib": "^3.4.0",
+    "azure-pipelines-tool-lib": "^2.0.4",
+    "i": "^0.3.7",
+    "npm": "^9.8.1",
+    "vss-web-extension-sdk": "5.141.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "14.14.45",
