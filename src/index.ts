@@ -35,10 +35,10 @@ let credentials: {login : string, pass : string, role : string, url : string}[] 
 let customCredentials: {name : string, value : string}[] = null;
 
 if (extra != null || extra != undefined){
-const extra_dict = YAML.parse(extra);
-  sbomFiles = extra_dict["sbom"]?.toString().split(",");
-  credentials = extra_dict["credentials"];
-  customCredentials = extra_dict["custom_credentials"];
+const extraDict = YAML.parse(extra);
+  sbomFiles = extraDict["sbom"]?.toString().split(",");
+  credentials = extraDict["credentials"];
+  customCredentials = extraDict["custom_credentials"];
 }
 
 
