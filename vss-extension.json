@@ -3,7 +3,7 @@
     "id": "ostorlab-azure-security-scanner",
     "name": "ostorlab-azure-security-scanner",
     "description": "Ostorlab scans mobile applications (Android APK, AAB, iOS IPA) for security and privacy issues. It provides full coverage by detecting issues on both the client-side and service-side.",
-    "version": "1.0.20",
+    "version": "1.1.0",
     "publisher": "Ostorlab",
     "targets": [
         {
@@ -25,7 +25,7 @@
         "Azure DevOps Extensions",
         "Marketplace"
     ],
-    "public": true,
+    "public": false,
     "categories": [
         "Azure Pipelines"
     ],

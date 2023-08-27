@@ -65,6 +65,34 @@ Then install it as follows:
 
 ![](images/advanced-config.png)
 
+#### Extra parameter
+
+The extra parameter allows you to supply your SBOM/Lock files for an enhanced scan analysis and/or to supply either simple credentials (login-password) or custom credentials (name-value) to enable authenticated testing.
+The extra parameter can be either in the following syntax.
+
+example:
+
+![](images/extra_example.png)
+
+Here you can see the list of the supported files:
+- buildscript-gradle.lockfile
+- Cargo.lock
+- composer.lock
+- conan.lock
+- Gemfile.lock
+- go.mod
+- gradle.lockfile
+- mix.lock
+- Pipfile.lock
+- package-lock.json
+- packages.lock.json
+- pnpm-lock.yaml
+- poetry.lock
+- pom.xml
+- pubspec.lock
+- requirements.txt
+- yarn.lock
+
 #### Sample Build Pipeline for Android
 
 ```
@@ -95,6 +123,11 @@ steps:
     filepath: '/dev/myApp.apk'
     platform: 'android'
     artifactsDir: '$(build.artifactStagingDirectory)/ostorlabArtifacts'
+    extra: |
+      sbom: 
+              - "package-lock.json"
+      credentials:
+              - {"login": "azure-test@test.com", "pass": "pass1"}
 ```
 
 The task will start as follow:  
@@ -109,5 +142,4 @@ Notes:
 
 1. "task: ostorlab-azure-security-scanner@1" is the main task for security analysis. The other tasks above are used to
    generate the Android apk file.
-2. If you set the _Wait for the scan to finish and retrieve the results_ option, & the scan took more than the provided
-   _Max wait time_, the pipline will fail.
+2. The Scan ID will be displayed in the task log.
