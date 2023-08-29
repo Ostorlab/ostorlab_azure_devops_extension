@@ -74,8 +74,10 @@ async function runScan(): Promise<void> {
             ostorlabExutable.arg(apiKey!)
             ostorlabExutable.arg("ci-scan")
             ostorlabExutable.arg("run")
-            ostorlabExutable.arg("--title")
-            ostorlabExutable.arg(title!)
+            if (title != null || title != undefined) {
+                ostorlabExutable.arg("--title")
+                ostorlabExutable.arg(title!)
+            }
             ostorlabExutable.arg("--break-on-risk-rating")
             ostorlabExutable.arg(riskThreshold)
             ostorlabExutable.arg("--max-wait-minutes")

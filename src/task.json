@@ -14,7 +14,7 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 0
+        "Patch": 1
     },
     "instanceNameFormat": "Ostorlab $(filepath)",
     "groups": [
@@ -77,7 +77,7 @@
             "name": "title",
             "type": "string",
             "label": "Title",
-            "defaultValue": "",
+            "defaultValue": "Scan_title",
             "required": false,
             "helpMarkDown": "Scan title.",
             "groupName": "advanced"
@@ -92,19 +92,10 @@
             "groupName": "advanced"
         },
         {
-            "name": "breakBuildOnScore",
-            "type": "boolean",
-            "label": "Generate an exception if the scan risk rating is higher than the threshold.",
-            "defaultValue": false,
-            "required": false,
-            "helpMarkDown": "Set to true to generate an exception if the scan risk rating is higher than the threshold.",
-            "groupName": "advanced"
-        },
-        {
           "name": "riskThreshold",
           "type": "pickList",
           "label": "Risk Threshold",
-          "defaultValue": "low",
+          "defaultValue": "medium",
           "options": {
             "low": "Low",
             "medium": "Medium",
@@ -120,7 +111,8 @@
             "label": "Extra",
             "required": false,
             "helpMarkDown": "Extra arguments such as Sbom files and credentials, consult extension page for more details.",
-            "groupName": "advanced"
+            "groupName": "advanced",
+            "defaultValue": "sbom:\n    - 'package-lock.json'\n    - 'package-lock.json'\ncredentials:\n    - {'login': 'azure-test@me.com', 'pass': 'pass1'}"
         }
     ],
     "execution": {
