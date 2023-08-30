@@ -4,6 +4,10 @@ import { getPythonPath } from './getpythonpath';
 import { getOstorlabPath } from './getostorlabpath';
 import { TaskResult, debug, error, getInput, loc, setResult, tool} from 'azure-pipelines-task-lib';
 
+const onError = function (errMsg: string, code: number) {
+  error(errMsg);
+  setResult(TaskResult.Failed, errMsg);
+}
 
 const YAML = require('yamljs');
 
@@ -79,8 +83,10 @@ async function runScan(): Promise<void> {
                 ostorlabExutable.arg("--title")
                 ostorlabExutable.arg(title!)
             }
-            ostorlabExutable.arg("--break-on-risk-rating")
-            ostorlabExutable.arg(riskThreshold)
+            if (riskThreshold !== "" && riskThreshold!== undefined && riskThreshold !== null) {
+                ostorlabExutable.arg("--break-on-risk-rating")
+                ostorlabExutable.arg(riskThreshold)
+            }
             ostorlabExutable.arg("--max-wait-minutes")
             ostorlabExutable.arg(waitMinutes)
             ostorlabExutable.arg("--scan-profile")
@@ -140,7 +146,28 @@ async function runScan(): Promise<void> {
 
             ostorlabExutable.arg(filePath)
 
-            ostorlabExutable.exec().toString;
+            ostorlabExutable.on("stdout", function (data: Buffer) {
+              const dataValue = data.toString()
+              console.log(`STDOUT: ${dataValue}`)
+              if (dataValue.includes('scan_id') === true) {
+                const startIndex = dataValue.indexOf("scan_id:");
+                const scanId = dataValue.match(/\d+/)[0];
+                console.log(scanId)
+                if (startIndex !== -1 && scanId) {
+                  console.log(`Scan ${scanId} is created successfully.`)
+                  console.log(`##vso[task.setvariable variable=OstorlabScanId]${scanId}`)
+                  console.log(`ENV var ScanID is sited.`)
+                }
+              }
+            });
+
+            await ostorlabExutable.execAsync()
+                .then(function (code: number) {
+                    debug("code: " + code);
+                    if (code != 0) {
+                        onError("Error occurred:", code);
+                    }
+                })
           }
 
     } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
