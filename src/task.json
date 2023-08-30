@@ -14,7 +14,7 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 1
+        "Patch": 3
     },
     "instanceNameFormat": "Ostorlab $(filepath)",
     "groups": [
@@ -112,7 +112,7 @@
             "required": false,
             "helpMarkDown": "Extra arguments such as Sbom files and credentials, consult extension page for more details.",
             "groupName": "advanced",
-            "defaultValue": "sbom:\n    - 'package-lock.json'\n    - 'package-lock.json'\ncredentials:\n    - {'login': 'azure-test@me.com', 'pass': 'pass1'}"
+            "defaultValue": ""
         }
     ],
     "execution": {

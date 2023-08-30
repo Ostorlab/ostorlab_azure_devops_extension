@@ -1,7 +1,8 @@
 import { ToolRunner } from 'azure-pipelines-task-lib/toolrunner';
 import { join } from 'path';
 import { getPythonPath } from './getpythonpath';
-import { TaskResult, debug, error, getBoolInput, getInput, loc, setResult, tool, which} from 'azure-pipelines-task-lib';
+import { getOstorlabPath } from './getostorlabpath';
+import { TaskResult, debug, error, getInput, loc, setResult, tool} from 'azure-pipelines-task-lib';
 
 
 const YAML = require('yamljs');
@@ -64,11 +65,11 @@ async function runScan(): Promise<void> {
             return setResult(TaskResult.Failed, 'python setup failed.');
         }
 
-        const ostorlabPath: string = which('ostorlab', true);
+        const ostorlab: string = await getOstorlabPath()
 
-        if (ostorlabPath != null)
+        if (ostorlab != null)
         {
-            const ostorlabExutable = tool(ostorlabPath)
+            const ostorlabExutable = tool(ostorlab)
 
             ostorlabExutable.arg("--api-key")
             ostorlabExutable.arg(apiKey!)

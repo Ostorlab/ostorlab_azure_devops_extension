@@ -1,1 +1,1 @@
-ostorlab
+ostorlab>=0.15.10
