@@ -10,7 +10,7 @@
   "author": "Ostorlab",
   "license": "MIT",
   "dependencies": {
-    "azure-pipelines-task-lib": "^3.4.0",
+    "azure-pipelines-task-lib": "^4.5.0",
     "azure-pipelines-tool-lib": "^2.0.4",
     "vss-web-extension-sdk": "5.141.0",
     "yamljs": "^0.3.0"
