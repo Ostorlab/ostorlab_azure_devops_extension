@@ -57,7 +57,7 @@ export async function getPythonPath(): Promise<string> {
  */
 async function getSelfHostedPythonPath(): Promise<string> {
 
-    const selfHostedPythonPath: string = which('python3', true);
+    const selfHostedPythonPath: string = which('python3.9', true);
 
     if (selfHostedPythonPath != null) {
         const pythonVer: trm.ToolRunner = tool_1(selfHostedPythonPath);
@@ -69,7 +69,7 @@ async function getSelfHostedPythonPath(): Promise<string> {
 
     } else {
         // Python3 not installed
-        throw new Error('Python3 installation not found.');
+        throw new Error('Python3.9 installation not found.');
     }
 
     return selfHostedPythonPath;
