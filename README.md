@@ -29,7 +29,6 @@ Following are parameters needed for the job:
 - `PLATFORM` - Specifies the platform. Possible values: `android` or `ios
 - `OSTORLAB_SCAN_PROFILE` - Select the scan profile to run. You can choose between `Fast Scan` for rapid static analysis
   or `Full Scan` for full Static, Dynamic and Backend analysis.
-- 
 ### Optional environment variables
 
 
@@ -37,13 +36,18 @@ Following are parameters needed for the job:
 - `OSTORLAB_WAIT_MINUTES` - Specifies the number of minutes to wait. Default value: `30`
 - `OSTORLAB_RISK_THRESHOLD` - Specifies your risk rating threshold. Possible values: `LOW`
 
-### API key
+### API Key Generation
 
-1. Go to the [API keys menu](https://report.ostorlab.co/library/api/keys)
-2. Click the new button to generate a new key
+1. Navigate to the [API Keys Page](https://report.ostorlab.co/library/api).
+
+2. Click the new button to generate a new key.
+   ![Generate New Key](images/new_key.png)
+
 3. Copy the API key (You can add a name and an expiry date to your key)
-4. Click the save button to save your key
-   ![](images/apikey.png)
+   ![Copy API Key](images/copy_key.png)
+
+4. Ensure your changes are saved by clicking the "Save" button.
+   ![Save API Key](images/save_key.png)
 
 ### Installation
 
