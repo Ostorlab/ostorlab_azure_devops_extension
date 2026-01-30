@@ -20,7 +20,7 @@ function findPythonInToolCache(toolName: string): string | undefined {
     for (const version of versions) {
         console.log(`Attempting to locate Python ${version}...`);
         const baseDir = tool.findLocalTool(toolName, version);
-        if (baseDir) {
+        if (baseDir !== undefined && baseDir !== null && baseDir !== '') {
             console.log(`Found Python ${version} at: ${baseDir}`);
             return baseDir;
         }
