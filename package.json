@@ -22,7 +22,7 @@
   "author": "Ostorlab",
   "license": "MIT",
   "dependencies": {
-    "azure-pipelines-task-lib": "4.10.1",
+    "azure-pipelines-task-lib": "5.2.8",
     "vss-web-extension-sdk": "5.141.0"
   },
   "devDependencies": {
